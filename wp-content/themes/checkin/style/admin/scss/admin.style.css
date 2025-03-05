@@ -1,0 +1,14 @@
+#download_page .bulkactions {
+  display: none !important;
+}
+
+#add-item,
+.remove-item {
+  cursor: pointer;
+  font-size: 1rem;
+  color: rgba(2, 36, 88, 0.7411764706);
+}
+#add-item:hover,
+.remove-item:hover {
+  color: #022458;
+}

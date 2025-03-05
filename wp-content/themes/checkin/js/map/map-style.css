@@ -1,0 +1,110 @@
+.my-map {
+    fill: rgb(7, 122, 199);
+    cursor: pointer;
+    fill-opacity: 0.8;
+    stroke: white;
+    stroke-width: 1;
+}
+
+.my-map:hover {
+    fill: rgb(2, 52, 94);
+    stroke-opacity: 1;
+    stroke-width: 2;
+}
+
+.my-map-none {
+    fill: rgb(155, 155, 155);
+    fill-opacity: 0.8;
+    stroke: white;
+    stroke-width: 1;
+}
+
+#map-modal {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    min-width: 100px;
+    z-index: 1000000;
+    border-radius: 8px;
+    box-shadow: 2px 5px 5px 3px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    text-align: center;
+    animation-name: example;
+    animation-duration: 2s;
+}
+
+#map-modal .modal-title {
+    color: white;
+    font-weight: bold;
+    background-color: rgb(2, 52, 94);
+    padding: 0.7rem;
+    border-radius: 0px;
+}
+
+#map-modal .modal-content {
+    color: rgb(4, 96, 158);
+    font-weight: bold;
+    background-color: rgb(252, 252, 252);
+    padding: 1rem;
+    border-radius: 0px;
+}
+
+@keyframes example {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.map-popup {
+    min-width: 300px;
+    min-height: 300px;
+    background-color: rgba(204, 203, 203, 0.658);
+    position: absolute;
+    top: 95%;
+    right: 1%;
+    display: none;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.map-popup .popup-title {
+    height: 30px;
+    background-color: #00365a;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+}
+
+.map-popup .popup-content {
+    padding: 0.5rem;
+}
+
+.close-popup {
+    color: rgb(252, 252, 252);
+    cursor: pointer;
+}
+
+.title-text {
+    color: white;
+    font-weight: bold;
+}
+
+.show-popup {
+    display: block;
+    animation-name: animation-show;
+    animation-duration: 2s;
+}
+
+@keyframes animation-show {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

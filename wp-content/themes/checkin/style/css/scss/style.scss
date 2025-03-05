@@ -1,0 +1,103 @@
+.my-container {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: $bg;
+    .page-content {
+        min-height: 350px;
+        padding: 1rem 0rem;
+    }
+}
+
+.my-link {
+    color: $link_color;
+    &:hover {
+        color: $link_hover_color;
+    }
+}
+
+.text-style {
+    color: #666;
+    h1 {
+        font-size: 2rem;
+        font-family: "DFKai-SB", Microsoft YaHei, Arial, sans-serif;
+        color: $main-color;
+    }
+}
+
+.div-link {
+    height: 80px;
+}
+
+//PHẦN HIỀN THI ITME KHI THANH TRƯỢC TỚI ==========================
+.animation-item {
+    visibility: hidden;
+}
+
+@keyframes slow-show {
+    0% {
+        // transform: scale(0.5, 0.5);
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    100% {
+        // transform: scale(1, 1);
+        transform: translateY(0px);
+        opacity: 1;
+    }
+}
+
+.animation-show {
+    visibility: visible;
+    animation-name: slow-show;
+    animation-duration: 3s;
+    animation-delay: 0s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
+.page-content {
+    h3 {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: $main_color;
+        font-family: "DFKai-SB", Microsoft YaHei, Arial, sans-serif;
+    }
+}
+
+#back-top-wrapper {
+    width: 100%;
+    z-index: 10000;
+    position: absolute;
+    overflow: hidden;
+    cursor: pointer;
+    #back-top {
+        position: fixed;
+        bottom: 35%;
+        right: 1%;
+        margin-left: 580px;
+        display: none;
+        i {
+            font-size: 2rem;
+            opacity: 0.15;
+            color: $main-color;
+            &:hover {
+                opacity: 0.7;
+            }
+        }
+    }
+}
+
+#load-more {
+    width: 100%;
+    text-align: center;
+    padding: 3rem;
+    i {
+        cursor: pointer;
+        font-size: 2rem;
+        color: #999;
+        &:hover {
+            color: #ccc;
+        }
+    }
+}

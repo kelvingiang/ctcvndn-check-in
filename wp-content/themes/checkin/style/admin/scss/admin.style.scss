@@ -1,0 +1,15 @@
+#download_page {
+    .bulkactions {
+        display: none !important;
+    }
+}
+
+#add-item,
+.remove-item {
+    cursor: pointer;
+    font-size: 1rem;
+    color: #022458bd;
+    &:hover {
+        color: #022458;
+    }
+}
