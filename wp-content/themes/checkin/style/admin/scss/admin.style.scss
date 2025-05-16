@@ -13,3 +13,19 @@
         color: #022458;
     }
 }
+#wpfooter{
+    display: none !important;
+}
+
+.error{
+    color: rgb(145, 2, 2);
+    font-size: 0.8rem;
+}
+
+.row-actions{
+  .reset{
+    a{
+      color: rgb(145, 2, 2)!important;
+    }
+  }
+}

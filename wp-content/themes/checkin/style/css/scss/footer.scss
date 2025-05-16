@@ -25,7 +25,7 @@
     }
     &::after,
     &::before {
-        content: '';
+        content: "";
         position: absolute;
         top: 0;
         left: 0;
@@ -33,5 +33,41 @@
         height: 80px;
         background-color: $bg;
         clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 10% 10%);
+    }
+}
+.footer-style {
+    display: block;
+    overflow: hidden;
+    height: 100px;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    .footer-img {
+        height: 100px;
+        width: 100%;
+        position: absolute;
+        background-image: radial-gradient(
+            farthest-corner at 80% 10%,
+            rgba(255, 255, 255, 0) 20%,
+
+            rgb(3, 44, 155) 90%
+        );
+        // filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.5));
+        &::before,
+        &::after {
+            content: "";
+            position: absolute;
+            top: 0px;
+            left: 0;
+            width: 150%;
+            height: 300px;
+            background-color: #ffffff;
+            // background-image: linear-gradient(#ffffff00 40%, #ffffff00 100%);
+            // filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.5)); /* 陰影設定 */
+            // object-fit: cover;
+            // clip-path: polygon(0 0, 100% 0, 100% 70%, 0 100%);
+            clip-path: ellipse(55% 62% at 48% -30%);
+        }
     }
 }

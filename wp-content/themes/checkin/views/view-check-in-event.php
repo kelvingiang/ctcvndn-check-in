@@ -7,7 +7,7 @@ $page =  getParams('page');
 $linkAdd  = admin_url('admin.php?page=' . $page . '&action=add');  // TAO LINH CHO ADD NEW
 $lblAdd    = __('Add New');
 if (getParams('msg') == 1) {
-    $msg .= '<div class="updated notice notice-success is-dismissible"><p> ' . __('Data adjustment is successful') . ' </p></div>';
+    $msg = '<div class="updated notice notice-success is-dismissible"><p> ' . __('Data adjustment is successful') . ' </p></div>';
 }
 
 ?>
@@ -28,3 +28,21 @@ if (getParams('msg') == 1) {
         <?php $show_list->display(); ?>
     </form>
 </div>
+
+<script type="text/javascript">
+    function sureToDelete(e) {
+        if (confirm('您確定刪除這活動嗎?')) {
+            return true;
+        } else {
+            e.preventDefault();
+        }
+    }
+
+    function sureToReset(e) {
+        if (confirm('您確定刪除這活動的報到細節嗎?')) {
+            return true;
+        } else {
+            e.preventDefault();
+        }
+    }
+</script>

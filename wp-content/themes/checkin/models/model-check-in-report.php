@@ -25,7 +25,6 @@ class Model_Check_In_Report
         global $wpdb;
         $sql = "SELECT * FROM $this->_table_event WHERE status = 1 AND trash = 0";
         $row = $wpdb->get_row($sql, ARRAY_A);
-
         $this->_event_id = $row['ID'];
     }
 
@@ -90,17 +89,4 @@ class Model_Check_In_Report
         $row = $wpdb->get_results($sql, ARRAY_A);
         return $row;
     }
-
-    // public function ReportJoinViewMember()
-    // {
-    //     global $wpdb;
-    //     $table_member = $wpdb->prefix . 'member';
-    //     $table_check = $wpdb->prefix . 'guests_check_in';
-    //     $sql = "SELECT * FROM $table_member AS A LEFT JOIN $table_check AS B ON A.barcode = B.barcode
-    //               WHERE A.status = 1 AND A.check_in =1
-    //               GROUP BY B.guests_id
-    //               ORDER BY B.time DESC";
-    //     $row = $wpdb->get_results($sql, ARRAY_A);
-    //     return $row;
-    // }
 }

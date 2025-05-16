@@ -52,8 +52,8 @@
             </a>
         </li>
         <li>
-            <a class="button button-primary" href="<?php echo "admin.php?page=$page&action=create_qrcode_name" ?>">
-                <?php _e(' 批次含姓名產生  QRCode') ?>
+            <a class="button button-primary" href="<?php echo "admin.php?page=$page&action=open_qrcode_folder" ?>">
+                <?php _e(' 打開 QRCode 資料庫') ?>
             </a>
         </li>
 
@@ -65,18 +65,14 @@
                 <?php _e('輸出會員名單') ?>
             </a>
         </li>
-        <li>
-            <a class="button btn-green" href="<?php echo "admin.php?page=$page&action=open_qrcode_folder" ?>">
-                <?php _e(' 打開 QRCode 資料庫') ?>
-            </a>
-        </li>
+      
     </ul>
     <hr />
-    <ul>
+    <!-- <ul>
         <li>
             <a class="button btn-delete" onclick="myFunction()"><?php _e('Clear check-in records') ?></a>
         </li>
-    </ul>
+    </ul> -->
 
 </div>
 

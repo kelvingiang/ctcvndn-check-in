@@ -58,7 +58,7 @@ function Custom_post_RenderCols($columns)
         case 'cate':
 
             $terms = wp_get_post_terms($post->ID, 'post_category');
-            if (count($terms) > 0) {
+            if (!is_wp_error($terms) && count($terms) > 0) {
                 foreach ($terms as $key => $term) {
                     echo '<a href=' . custom_redirect($term->slug) . ' &' . $term->taxonomy . '=' . $term->slug . '>' . $term->name . '</a></br>';
                 }

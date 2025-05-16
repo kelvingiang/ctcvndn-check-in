@@ -59,8 +59,8 @@ class Controller_Check_In
         echo $url = 'admin.php?page=' . getParams('page');
 
         //filter_status
-        if (getParams('filter_branch') != '0') {
-            $url .= '&filter_branch=' . getParams('filter_branch');
+        if (getParams('filter_check_in') != '0') {
+            $url .= '&filter_check_in=' . getParams('filter_check_in');
         }
 
         if (mb_strlen(getParams('s'))) {
@@ -109,14 +109,7 @@ class Controller_Check_In
 
         $sqlDetail = "SELECT * FROM $table WHERE member_id =" . $params['id'] . " AND event_id = " . $params['event_id'];
         $detail = $wpdb->get_row($sqlDetail, ARRAY_A);
-        // echo $sqlDetail;
-        // echo "ssssss";
-        // echo '<pre>';
-        // print_r($detail);
-        // echo '</pre>';
-        // die();
-
-        if (count($detail) == ' ') {
+        if (empty($detail)) {
             $this->_model->checkin(getParams());
         } else {
             $this->_model->un_checkin(getParams());

@@ -34,45 +34,44 @@
                     </div>
                     <div>
                         <div class="guest-name">
-                            <label id="guest_name"></label>
+                            <div id="guest_name"></div>
+                        </div>
+
+                        <div class="guest-info" style="margin-top: 1rem" ;>
+                            <div>會員編號 : </div>
+                            <div id="guest_code">&nbsp; </div><br />
                         </div>
 
                         <div class="guest-info">
-                            <label>公司名稱</label>
-                            <label id="guest_company_cn">&nbsp; </label><br />
+                            <div>公司名稱 : </div>
+                            <div id="guest_company_cn">&nbsp; </div>
+                            <!-- <div id="guest_company_vn">&nbsp; </div> -->
                         </div>
 
                         <div class="guest-info">
-                            <label></label>
-                            <label id="guest_company_vn">&nbsp; </label>
+                            <div>公司地址 : </div>
+                            <div id="guest_address">&nbsp; </div>
                         </div>
 
                         <div class="guest-info">
-                            <label>地址</label>
-                            <label id="guest_address">&nbsp; </label>
+                            <div>聯絡電話 : </div>
+                            <div id="guest_phone">&nbsp; </div>
                         </div>
 
                         <div class="guest-info">
-                            <label>電話</label>
-                            <label id="guest_phone">&nbsp; </label>
+                            <div>聯絡電郵 : </div>
+                            <div id="guest_email">&nbsp; </div>
                         </div>
 
                         <div class="guest-info">
-                            <label>E-mail </label>
-                            <label id="guest_email">&nbsp; </label>
+                            <div>經營行業 : </div>
+                            <div id="guest_career">&nbsp; </div>
                         </div>
-
-                        <div class="guest-info">
-                            <label>行業</label>
-                            <label id="guest_career">&nbsp; </label>
-                        </div>
-                        <div class="guest-info">
-                            <img src="<?php // echo PART_IMAGES . 'footer.jpg' ?>" width="100%" />
-                        </div>
+                     
                     </div>
                 </div>
                 <div id="check-in-main">
-                    <img src="<?php  echo PART_IMAGES . 'logo.png' ?>" />
+                    <img src="<?php echo PART_IMAGES . 'logo.png' ?>" />
                 </div>
             </div>
         </div>
@@ -90,7 +89,7 @@
             jQuery("#txt-barcode").focus();
 
             jQuery('#check-form').submit(function(e) {
-                var barcode = jQuery('#txt-barcode').val();
+                var barcode = jQuery('#txt-barcode').val().trim();
                 var event = '<?php echo $active_event_id ?>';
                 jQuery('.my-waiting').css('display', 'flex');
 
@@ -114,15 +113,16 @@
                             //     jQuery('#last-check-in').append("<label> Kiểm soát lần  thứ  : " + data.info.TotalTimes + "</label>");
                             //     jQuery('#last-check-in').append("<label> Kiểm soát lần Trước : " + data.info.LastCheckIn + "</label>");
                             // }
+                            jQuery('#guest_code').text(data.info.member_code);
                             jQuery('#guest_name').text(data.info.contact);
-                            jQuery('#guest_company_cn').text(data.info.company_cn);
+                            jQuery('#guest_company_cn').html(data.info.company_cn + '<br>' + data.info.company_vn);
                             jQuery('#guest_company_vn').text(data.info.company_vn);
                             jQuery('#guest_address').text(data.info.address);
                             jQuery('#guest_email').text(data.info.email);
                             jQuery('#guest_phone').text(data.info.phone);
                             jQuery('#guest_career').text(data.info.career);
                             jQuery('#last-check-in').text('');
-                            if(data.check == 1){
+                            if (data.check == 1) {
                                 jQuery('#last-check-in').text('已經報到!')
                             }
                             // jQuery('#guest-picture').append(data.info.Img);

@@ -343,3 +343,13 @@
   #add-item:hover,
   .remove-item:hover {
     color: #022458; }
+
+#wpfooter {
+  display: none !important; }
+
+.error {
+  color: #910202;
+  font-size: 0.8rem; }
+
+.row-actions .reset a {
+  color: #910202 !important; }

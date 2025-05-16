@@ -43,9 +43,6 @@ class Controller_Check_In_Setting
             case 'create_qrcode':
                 $this->CreateQRCodeAction();
                 break;
-            case 'create_qrcode_name':
-                $this->CreateNameQRCodeAction();
-                break;
             case 'open_qrcode_folder':
                 $this->openFOlderAction();
                 break;
@@ -91,37 +88,24 @@ class Controller_Check_In_Setting
 
     public function ExportMemberAction()
     {
-        $model = new Model_Check_In_Setting();
-        $model->ExportMember();
+        // $model = new Model_Check_In_Setting();
+        $this->_model->ExportMember();
     }
 
 
     public function ExportCheckInAction()
     {
-        $model = new Model_Check_In_Setting();
-        $model->ExCheckInToExcel();
+        // $model = new Model_Check_In_Setting();
+        $this->_model->ExCheckInToExcel();
     }
 
     public function ExportMemberPostAction()
     {
-        $model = new Model_Check_In_Setting();
-        $model->ExportMemberPost();
-    }
-
-    public function ExportMemberTableAction()
-    {
-        $model = new Model_Check_In_Setting();
-        $model->ExportMemberTable();
-    }
-
-    public function ExportGuestsAction()
-    {
-        $model = new Model_Check_In_Setting();
-        $model->ExportGuests();
+        // $model = new Model_Check_In_Setting();
+        $this->_model->ExportMemberPost();
     }
 
     // Import Group Function 
-
     public function ImportMemberMoreAction()
     {
         if (isPost()) {
@@ -187,8 +171,8 @@ class Controller_Check_In_Setting
 
                 $excelList = $path . $file_name;
                 // require_once(DIR_MODEL . 'model_check_in_setting.php');
-                $model = new Model_Check_In_Setting();
-                $model->ImportGuests($excelList);
+                // $model = new Model_Check_In_Setting();
+                $this->_model->ImportGuests($excelList);
 
                 ToBack();
             }
@@ -205,22 +189,10 @@ class Controller_Check_In_Setting
 
     public function CreateQRCodeAction()
     {
-        $model = new Model_Check_In_Setting();
-        $model->create_QRCode();
+        // $model = new Model_Check_In_Setting();
+        $this->_model->create_QRCode();
         ToBack();
     }
 
-    public function CreateNameQRCodeAction()
-    {
-        $model = new Model_Check_In_Setting();
-        $model->create_QRCode_Name();
-        ToBack();
-    }
-
-    public function  CreateRegisteredQRCodeAction()
-    {
-        $model = new Model_Check_In_Setting();
-        $model->create_registered_QRCode();
-        ToBack();
-    }
+   
 }

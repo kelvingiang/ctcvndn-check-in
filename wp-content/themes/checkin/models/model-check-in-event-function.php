@@ -2,12 +2,14 @@
 
 class Model_Check_In_Event_Function
 {
+    private $_table_member;
     private $_table_event;
     private $_table_detail;
 
     public function __construct()
     {
         global $wpdb;
+        $this->_table_member = $wpdb->prefix . 'check_in_member';
         $this->_table_event = $wpdb->prefix . 'check_in_event';
         $this->_table_detail = $wpdb->prefix . 'check_in_detail';
     }
@@ -107,6 +109,18 @@ class Model_Check_In_Event_Function
         }
     }
 
+
+    public function resetItem($arrData = array(), $option = array())
+    {
+        global $wpdb;
+        // KIEM TRA PHAN DELETE CÓ PHAN DANG CHUOI HAY KHONG
+        // $where = array('ID' => absint($arrData['id']));
+        // $wpdb->delete($this->_table_event, $where);
+        // delete detail 
+        $where = array('event_id' => absint($arrData['id']));
+        $wpdb->delete($this->_table_detail, $where);
+    }
+
     public function deleteItem($arrData = array(), $option = array())
     {
         global $wpdb;
@@ -127,5 +141,16 @@ class Model_Check_In_Event_Function
             // $sql = "DELETE FROM $this->_table_event WHERE ID IN ($ids)";
             // $wpdb->query($sql);
         }
+    }
+
+    public function exportCheckIn($id)
+    {
+        global $wpdb;
+        $sql = "SELECT * FROM $this->_table_member AS A LEFT JOIN $this->_table_detail AS B ON A.ID = B.member_ID
+                  WHERE A.trash = 0 AND B.event_id = $id
+                  GROUP BY B.member_ID
+                  ORDER BY B.time DESC";
+        $row = $wpdb->get_results($sql, ARRAY_A);
+        return $row;
     }
 }

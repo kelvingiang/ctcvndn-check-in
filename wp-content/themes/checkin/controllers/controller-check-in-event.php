@@ -48,6 +48,9 @@ class Controller_Check_In_Event
             case 'restore':
                 $this->restoreAction();
                 break;
+            case 'reset':
+                $this->resetAction();
+                break;
             case 'export':
                 $this->exportAction();
                 break;
@@ -62,8 +65,8 @@ class Controller_Check_In_Event
         echo $url = 'admin.php?page=' . getParams('page');
 
         //filter_status
-        if (getParams('filter_branch') != '0') {
-            $url .= '&filter_branch=' . getParams('filter_branch');
+        if (getParams('filter_check-in') != '0') {
+            $url .= '&filter_check_in=' . getParams('filter_check_in');
         }
 
         if (mb_strlen(getParams('s'))) {
@@ -91,9 +94,13 @@ class Controller_Check_In_Event
     public function exportAction()
     {
         $id = getParams('id');
-        require_once DIR_MODEL . 'model-check-in-setting.php';
-        $model = new Model_Check_In_Setting();
-        $model->ExCheckInToExcelByID($id);
+        // require_once DIR_MODEL . 'model-check-in-setting.php';
+        // $model = new Model_Check_In_Setting();
+        // $model->ExCheckInToExcelByID($id);
+        $data = $this->_model->exportCheckIn($id);
+        export_excel_check_in($data);
+        // echo '<pre>'; print_r($data); echo '</pre>';
+
     }
 
     // THEM MOI ITEM
@@ -119,6 +126,12 @@ class Controller_Check_In_Event
     public function restoreAction()
     {
         $this->_model->restoreItem(getParams());
+        ToBack();
+    }
+
+     public function resetAction()
+    {
+        $this->_model->resetItem(getParams());
         ToBack();
     }
 

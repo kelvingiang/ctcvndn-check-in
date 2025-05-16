@@ -44,23 +44,4 @@ class Controller_Check_In_Report
         $model->ExCheckInToExcel();
     }
 
-    // public function barcodeAction()
-    // {
-    //     $model = new Admin_Model_Check_In_Setting();
-    //     $model->ExportBarcode();
-    // }
-
-    // public function waitingAction()
-    // {
-    //     if (isPost()) {
-    //         // update_option("Waiting_text", $_POST['txtWait']);
-    //         update_option("Title_text", $_POST['txtTitle']);
-    //         update_post_meta(1, '_part_text', $_POST['txtPart']);
-
-    //         $paged = max(1, getParams('page'));
-    //         $url = 'admin.php?page=' . $_REQUEST['page'] . '&paged=' . $paged . '&msg=1';
-    //         wp_redirect($url);
-    //     }
-    //     require_once(DIR_VIEW . 'view-check-in-waiting.php');
-    // }
 }

@@ -6,7 +6,6 @@ if (!class_exists('WP_List_Table')) {
 }
 
 
-
 class Model_Check_In extends WP_List_Table
 {
 
@@ -70,7 +69,6 @@ class Model_Check_In extends WP_List_Table
             'contact' => __('聯絡人'),
             'qr_code' => __('QR_code'),
             'phone' => __('Phone'),
-            // 'check' => __('報到'),
             'checkin' => __('Check-In'),
             'create_date' => __('Date')
         );
@@ -87,9 +85,9 @@ class Model_Check_In extends WP_List_Table
     public function get_sortable_columns()
     {
         return array(
-            'checkin' => array('status', true),
+            // 'checkin' => array('status', true),
             'serial' => array('member_code', true),
-            'country' => array('country', true),
+            // 'country' => array('country', true),
             'id' => array('id', true),
         );
     }
@@ -115,27 +113,55 @@ class Model_Check_In extends WP_List_Table
             $whereArr[] = "(trash = 0)";
         }
 
-        // if (getParams('filter_branch') != ' ') {
-        //     $branch = getParams('filter_branch');
-        //     $whereArr[] = "(m.country = $branch)";
-        // }
+        if (getParams('filter_check_in') != ' ') {
+
+            $checkSql =  "SELECT m.ID FROM $this->_table_event e
+                JOIN $this->_table_detail d ON e.id = d.event_id
+                JOIN $this->_table m ON d.member_id = m.id
+                WHERE e.status = 1";
+            $checkRow = $wpdb->get_results($checkSql, ARRAY_A);
+            $member_ids = []; // 存符合條件的 member ID
+            foreach ($checkRow as $val) {
+                if (!empty($val['ID'])) {
+                    $member_ids[] = $val['ID'];
+                }
+            }
+
+            $check_in = getParams('filter_check_in');
+            if ($check_in == 1) {
+                if (!empty($member_ids)) {
+                    // 將 member ID 寫進 where 條件中
+                    $ids_str = implode(',', array_map('intval', $member_ids));
+                    $whereArr[] = "(m.id IN ($ids_str))";
+                } else {
+                    // 沒有找到 member，就加個不成立條件避免錯誤查詢
+                    $whereArr[] = "(1 = 0)";
+                };
+            } elseif ($check_in == 2) {
+                if (!empty($member_ids)) {
+                    // 將 member ID 寫進 where 條件中
+                    $ids_str = implode(',', array_map('intval', $member_ids));
+                    $whereArr[] = "(m.id NOT IN ($ids_str))";
+                } else {
+                    // 沒有找到 member，就加個不成立條件避免錯誤查詢
+                    $whereArr[] = "(1 = 0)";
+                };
+            }
+        }
 
         if (getParams('s') != ' ') {
             $s = esc_sql(getParams('s'));
-            $whereArr[] = "(m.member_code  LIKE '%$s%' OR m.contact LIKE '%$s%' OR m.company_cn LIKE '%$s%')";
+            $whereArr[] = "(m.member_code  LIKE '%$s%' OR m.contact LIKE '%$s%' OR m.company_cn LIKE '%$s%' OR m.qr_code = '$s')";
         }
 
         // CHUYEN CAC GIA TRI where KET VOI NHAU BOI and
         if (count($whereArr) > 0) {
             $sql .= " WHERE " . join(" AND ", $whereArr);
         }
-
         // orderby
         $sql .= 'ORDER BY m.' . esc_sql($orderby) . ' ' . esc_sql($order);
 
         $this->_sql = $sql;
-
-
         //LAY GIA TRI PHAN TRANG PAGEING
         $paged = max(1, @$_REQUEST['paged']);
         $offset = ($paged - 1) * $this->_pre_page;
@@ -207,20 +233,43 @@ class Model_Check_In extends WP_List_Table
     // CAC ITEM TRONG SELECT BOX CHUC NANG 'UNG DUNG'
     public function get_bulk_actions()
     {
-        if (isset($_GET['customvar'])) {
-            if ($_GET['customvar'] == 'trash') {
-                $actions = array(
-                    'restore' => __('Restore'),
-                    'delete' => __('Delete Permanently'),
-                );
-            } else {
-                $actions = array(
-                    'trash' => __('Trash'),
-                    'uncheckin' => __('Cancel Check-in')
-                );
-            }
-            return $actions;
+        if (isset($_GET['customvar']) && $_GET['customvar'] == 'trash') {
+            $actions = array(
+                'restore' => __('Restore'),
+                'delete' => __('Delete Permanently'),
+            );
+        } else {
+            $actions = array(
+                'trash' => __('Trash'),
+                // 'uncheckin' => __('Cancel Check-in')
+            );
         }
+        return $actions;
+    }
+
+    // CAC ITEM TRONG SECLETBOX TRONG PHAN FILTER
+    public function extra_tablenav($which)
+    {
+        if ($which == 'top') {
+            $filterVal = @$_REQUEST['filter_check_in'];
+?>
+            <div class="alignleft action bulkactions">
+                <select name="filter_check_in">
+                    <option value="0" <?php echo $filterVal ==  1 ? 'selected' : '' ?>>
+                        篩選出席
+                    </option>
+                    <option value="1" <?php echo $filterVal ==  1 ? 'selected' : '' ?>>
+                        已出席
+                    </option>
+                    <option value="2" <?php echo $filterVal == 2 ? 'selected' : '' ?>>
+                        未出席
+                    </option>
+                <?php } ?>
+                </select>
+                <button id="filter_action" name="filter_action">篩選</button>
+            </div>
+    <?php
+
     }
 
     //---------------------------------------------------------------------------------------------
@@ -231,7 +280,7 @@ class Model_Check_In extends WP_List_Table
     public function column_cb($item)
     {
         $singular = $this->_args['singular'];
-        $html = '<input type="checkbox" name="' . $singular . '[]" value="' . $item['ID'] .'"/>';
+        $html = '<input type="checkbox" name="' . $singular . '[]" value="' . $item['ID'] . '"/>';
         return $html;
     }
 
@@ -245,7 +294,7 @@ class Model_Check_In extends WP_List_Table
         //        $action = 'delete_id' . $item['id'];
         //        $linkDelete = wp_nonce_url($linkDelete, $action, $name);
 
-        if ($_GET['customvar'] == 'trash') {
+        if (isset($_GET['customvar']) && $_GET['customvar'] == 'trash') {
             $actions = array(
                 'restore' => '<a href=" ?page=' . $page . '&action=restore&id=' . $item['ID'] . ' " >' . __('Restore') . '</a>',
                 'delete' => '<a href=" ?page=' . $page . '&action=delete&id=' . $item['ID'] . ' " >' . __('Delete Permanently') . ' </a>',
@@ -267,36 +316,6 @@ class Model_Check_In extends WP_List_Table
         echo $item['create_date'];
     }
 
-    // public function column_checkin($item)
-    // {
-    //     global $wpdb;
-    //     $sql = "SELECT * FROM $this->_table_event WHERE status != '0' AND trash = '0'";
-    //     $event = $wpdb->get_row($sql, ARRAY_A);
-
-    //     if ($item['status'] == $event['ID']) {
-    //         // $action = 'inactive';
-    //         $src = PART_ICON . 'active32x32.png';
-    //     } else {
-    //         // $action = 'active';
-    //         $src = PART_ICON . 'inactive32x32.png';
-    //     }
-
-    //     // TAO SECURITY CODE
-    //     $paged = max(1, @$_REQUEST['paged']);
-    //     $name = 'security_code';
-    //     $linkStatus = add_query_arg(array('action' => 'uncheckin', 'check' => $item['status'], 'id' => $item['ID'], 'barcode' => $item['barcode'], 'paged' => $paged));
-    //     // $action = '';
-    //     // $action = $action . '_id_' . $item['id'];
-    //     // $linkStatus = wp_nonce_url($linkStatus, $action, $name);
-    //     if (getParams('customvar') != 'trash') {
-    //         $html = '<img alt="" src=" ' . $src . ' " />';
-    //         $html = '<a href ="' . $linkStatus . ' ">' . $html . '</a>';
-    //     } else {
-    //         $html = '<img alt="" src=" ' . $src . ' " />';
-    //         $html = '<a href ="#">' . $html . '</a>';
-    //     }
-    //     return $html;
-    // }
 
     /* =========================================================
     check kieu kiem tra trong check-in-detail neu cai member_id bang voi $item['ID'] thi doi tuong do da check-in
@@ -311,7 +330,7 @@ class Model_Check_In extends WP_List_Table
         $detail = $wpdb->get_row($sqlDetail, ARRAY_A);
 
 
-        if ($detail['event_id'] == $event['ID']) {
+        if (isset($detail['event_id']) && $detail['event_id'] == $event['ID']) {
             $src = PART_ICON . 'active32x32.png';
         } else {
             $src = PART_ICON . 'inactive32x32.png';
@@ -334,11 +353,6 @@ class Model_Check_In extends WP_List_Table
         }
         return $html;
     }
-
-
-
-
-
 
     //CAC COLUMN MAC DINH KHI LOAD TRANG SE SHOW LEN 
     public function column_default($item, $column_name)

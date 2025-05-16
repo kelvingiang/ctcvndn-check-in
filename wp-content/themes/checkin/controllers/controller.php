@@ -12,8 +12,8 @@ class Controller_Main
             'controller_check_in_report' => TRUE,
             'controller_check_in_setting' => TRUE,
             'controller_check_in_event' => TRUE,
-            'controller_check_in' => TRUE,
             'controller_setting' => false,
+            'controller_check_in' => TRUE,
 
 
             // 'controller_checkin_setting' => get_current_user_id() == 1 ? TRUE : FALSE,
@@ -22,8 +22,8 @@ class Controller_Main
         $this->page_setting();
         $this->page_check_in();
         $this->page_check_in_report();
-        $this->page_check_in_setting();
         $this->page_check_in_event();
+        $this->page_check_in_setting();
 
         add_action('admin_init', array($this, 'do_output_buffer'));
     }

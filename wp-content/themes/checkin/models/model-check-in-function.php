@@ -170,15 +170,15 @@ class Model_Check_In_Function
         global $wpdb;
 
         $data = array(
-            'member_code' => $arrData['txt_member_code'],
-            'contact' => $arrData['txt_contact'],
-            'position' => $arrData['txt_position'],
-            'company_cn' => $arrData['txt_company_cn'],
-            'company_vn' => $arrData['txt_company_vn'],
-            'address' => $arrData['txt_address'],
-            'email' => $arrData['txt_email'],
-            'phone' => $arrData['txt_phone'],
-            'career' => $arrData['txt_career'],
+            'member_code' => $arrData['txt_member_code'] ?? null,
+            'contact' => $arrData['txt_contact'] ?? null,
+            'position' => $arrData['txt_position'] ?? null,
+            'company_cn' => $arrData['txt_company_cn'] ?? null,
+            'company_vn' => $arrData['txt_company_vn'] ?? null,
+            'address' => $arrData['txt_address'] ?? null,
+            'email' => $arrData['txt_email'] ?? null,
+            'phone' => $arrData['txt_phone'] ?? null,
+            'career' => $arrData['txt_career'] ?? null,
         );
 
         if ($option == 'edit') {
@@ -189,16 +189,11 @@ class Model_Check_In_Function
             $wpdb->update($this->_table,  $data, $where);
 
             if ($arrData['hidden_member_code'] != $arrData['txt_member_code']) {
-
-
                 $code = create_qrcode();
                 $qrCode = $arrData['txt_member_code'] . $code;
 
-                require_once(DIR_CLASS . 'qrcode' . DS . 'qrlib.php');
-                $filePath = DIR_IMAGES_QRCODE . $qrCode . '.png';
-                $errorCorrectionLevel = "L";
-                $matrixPointSize = 3;
-                QRcode::png($code, $filePath, $errorCorrectionLevel, $matrixPointSize, 2);
+                // tao QRCode ============
+                create_QRCode_Img($qrCode, $arrData['txt_member_code']);
 
                 unlink(DIR_IMAGES_QRCODE . $arrData['hidden_qr_code'] . '.png');
 
@@ -209,61 +204,14 @@ class Model_Check_In_Function
         } else if ($option == 'add') {
             // tạo mã QRcode mã ngẫu nhiên
             $code = create_qrcode();
-            $qrCode = $arrData['txt_member_code'] ."-". $code;
+            $qrCode = $arrData['txt_member_code'] . "-" . $code;
             // thêm phần tử vào array 
             $data['qr_code'] = $qrCode;
             $data['create_date'] = date('Y-m-d');
 
             $wpdb->insert($this->_table, $data);
             // tao QRCode ============
-            require_once(DIR_CLASS . 'qrcode' . DS . 'qrlib.php');
-            $filePath = DIR_IMAGES_QRCODE . $qrCode . '.png';
-            $errorCorrectionLevel = "L";
-            $matrixPointSize = 3;
-            QRcode::png($code, $filePath, $errorCorrectionLevel, $matrixPointSize, 2);
-
-            //********************************************************* */
-            //=== tạo thêm chữ trên file QRCode /   28/02/2025 
-            // them font NotoSansTC-Regular.ttf vào mục font tạo thêm define DIR_FONTS
-            //start  *********************************************************/
-            // 讀取 QR Code 圖片
-            $qrImage = imagecreatefrompng($filePath);
-            $qrWidth = imagesx($qrImage);
-            $qrHeight = imagesy($qrImage);
-
-            // **設定中文字型**
-            $fontPath = DIR_FONT . 'NotoSansTC-Regular.ttf'; // 確保字型路徑正確
-            $fontSize = 9; // 字體大小
-            $textPadding = 5; // 文字與 QR Code 之間的距離
-
-            // **計算文字寬度**
-            $box = imagettfbbox($fontSize, 0, $fontPath, $arrData['txt_member_code']);
-            $textWidth = abs($box[2] - $box[0]);
-            $textHeight = abs($box[7] - $box[1]);
-
-            // **建立新圖片（比 QR Code 高一點來放文字）**
-            $finalImage = imagecreatetruecolor($qrWidth, $qrHeight + $textHeight + $textPadding);
-            $white = imagecolorallocate($finalImage, 255, 255, 255);
-            $black = imagecolorallocate($finalImage, 0, 0, 0);
-
-            // **填充背景為白色**
-            imagefilledrectangle($finalImage, 0, 0, $qrWidth, $qrHeight + $textHeight + $textPadding, $white);
-            imagecopy($finalImage, $qrImage, 0, 0, 0, 0, $qrWidth, $qrHeight);
-
-            // **在 QR Code 下方添加中文文字**
-            $textX = ($qrWidth - $textWidth) / 2;
-            $textY = $qrHeight + $textHeight; // 文字放在 QR Code 下方
-            imagettftext($finalImage, $fontSize, 0, $textX, $textY, $black, $fontPath, $arrData['txt_member_code']);
-
-            // **儲存最終圖片**
-            imagepng($finalImage, $filePath);
-
-            // **釋放記憶體**
-            imagedestroy($qrImage);
-            imagedestroy($finalImage);
-            // end *********************************************************/
-
-
+            create_QRCode_Img($qrCode, $arrData['txt_member_code']);
         }
     }
 
