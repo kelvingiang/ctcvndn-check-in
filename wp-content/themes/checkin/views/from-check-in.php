@@ -146,7 +146,7 @@ if (isset($params['id'])) {
     <div class="row-one-column" style="padding-top: 20px; text-align: right">
         <div class="cell-title "><label class="label-admin"></label></div>
         <div class="cell-text">
-            <input type="submit" name="btn-submit" id="btn-submit" class="button button-primary" value="發 表"  style="margin-right: 50px">
+            <input type="submit" name="btn-submit" id="btn-submit" class="button button-primary" value="發 表" style="margin-right: 50px">
         </div>
     </div>
 </form>
@@ -175,28 +175,31 @@ if (isset($params['id'])) {
     });
 
     jQuery("#txt_member_code").blur(function(e) {
-        let memberCode = jQuery(this).val();
-                jQuery.ajax({
-                    url: '<?php echo get_template_directory_uri() . '/ajax/check-member-code.php' ?>', // lay doi tuong chuyen sang dang array
-                    type: 'post',
-                    data: {
-                        memberCode: memberCode,
-                    },
-                    dataType: 'json',
-                    success: function(data) { // set ket qua tra ve  data tra ve co thanh phan status va message
-                        if (data.status === 'exited') {
-                             jQuery('#exited-member-code').text(data.message);
-                             jQuery('#btn-submit').prop('disabled', true); 
-                        }if(data.status === 'done'){
-                            jQuery('#exited-member-code').text('');
-                             jQuery('#btn-submit').prop('disabled', false); 
-                        } 
-                    },
-                    error: function(xhr) {
-                        console.log(xhr.reponseText);
+        if (!jQuery(this).is('[readonly]')) {
+            let memberCode = jQuery(this).val();
+            jQuery.ajax({
+                url: '<?php echo get_template_directory_uri() . '/ajax/check-member-code.php' ?>', // lay doi tuong chuyen sang dang array
+                type: 'post',
+                data: {
+                    memberCode: memberCode,
+                },
+                dataType: 'json',
+                success: function(data) { // set ket qua tra ve  data tra ve co thanh phan status va message
+                    if (data.status === 'exited') {
+                        jQuery('#exited-member-code').text(data.message);
+                        jQuery('#btn-submit').prop('disabled', true);
                     }
-                });
-                e.preventDefault();
+                    if (data.status === 'done') {
+                        jQuery('#exited-member-code').text('');
+                        jQuery('#btn-submit').prop('disabled', false);
+                    }
+                },
+                error: function(xhr) {
+                    console.log(xhr.reponseText);
+                }
+            });
+        }
+        e.preventDefault();
 
     });
 </script>
