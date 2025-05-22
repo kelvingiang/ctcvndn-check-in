@@ -298,10 +298,9 @@ a:link {
       display: none; }
       .check-in-box .check-in-value #guest-main .guest-info {
         width: 100%;
-        margin-bottom: 1rem;
         border-bottom: 1px dotted #ccc;
-        padding-bottom: 1rem;
         display: flex;
+        padding: 0.5rem 0rem;
         flex-direction: row; }
         .check-in-box .check-in-value #guest-main .guest-info > div:nth-child(1) {
           font-weight: bold;
@@ -315,7 +314,7 @@ a:link {
       .check-in-box .check-in-value #guest-main .guest-name {
         text-align: center;
         text-transform: uppercase;
-        height: 100px; }
+        height: 50px; }
         .check-in-box .check-in-value #guest-main .guest-name div {
           font-size: 3rem;
           margin-top: 20px;
