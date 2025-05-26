@@ -24,7 +24,10 @@ require_once(HELPER . 'function-qrcode.php');
   LANGUAGE FUNCTION
   =================================================== */
 global $language;
-$language = $_SESSION['languages'] ?? [];
+if (empty($_SESSION['languages'])) {
+    $_SESSION['languages'] = 'cn';
+}
+$language = $_SESSION['languages'];
 
 if ($language == '' ) {
     $_SESSION['languages'] = 'cn';
@@ -32,7 +35,8 @@ if ($language == '' ) {
 
 function change_translate_text($translated)
 {
-    switch ($_SESSION['languages']) {
+    global $language;
+    switch ($language) {
         case 'cn':
             $languages = 'cn';
             break;
