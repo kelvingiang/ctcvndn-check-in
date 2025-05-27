@@ -392,6 +392,7 @@ a:link {
   display: flex;
   padding: 0.5rem 0rem;
   flex-direction: row;
+  font-family: "Times New Roman", Arial, sans-serif;
 }
 .check-in-box .check-in-value #guest-main .guest-info > div:nth-child(1) {
   font-weight: bold;
