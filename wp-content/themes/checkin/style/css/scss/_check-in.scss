@@ -1,0 +1,217 @@
+.my-waiting {
+    background-color: #ccccccee;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    width: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    img {
+        width: 150px;
+        height: 150px;
+    }
+}
+
+.check-in-box {
+    display: flex;
+    flex-direction: row;
+    height: 74vh;
+    margin-top: 1rem;
+
+    &::before {
+        content: "";
+        background-image: url("../../images/logo.png");
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-origin: center center;
+        background-position: 100% 97.5%;
+        background-size: 330px 300px;
+        opacity: 0.2;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: -1;
+    }
+    .check-in-form {
+        flex: 1;
+        position: relative;
+        .check-form-input {
+            padding: 1rem;
+            display: flex;
+            flex-direction: row;
+            input[type="text"] {
+                width: 100%;
+            }
+            .btn-submit-barcode {
+                letter-spacing: 2px;
+                font-weight: bold;
+                border: 2px;
+                padding: 6px 15px;
+                position: absolute;
+                right: 18px;
+                top: 17px;
+            }
+        }
+        #last-check-in {
+            padding-left: 1rem;
+            color: #b1b1b1;
+        }
+    }
+    .check-in-value {
+        flex: 3;
+        padding-left: 2rem;
+        border-left: 1px solid;
+        border-image: linear-gradient(to top, rgb(252, 252, 252) 13%, #636363 50%, rgba(255, 255, 255, 1) 88%) 1;
+        #barcode-error,
+        #accout-unactive {
+            display: none;
+            width: 100%;
+            height: 90%;
+            // background-color: #636363;
+            justify-content: center;
+            align-items: center;
+            color: red;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        #guest-main {
+            position: relative;
+            display: none;
+            .guest-info {
+                width: 100%;
+                border-bottom: 1px dotted #ccc;
+                display: flex;
+                padding: 0.5rem 0rem;
+                flex-direction: row;
+                > div:nth-child(1) {
+                    font-weight: bold;
+                    color: #023066;
+                    width: 100px;
+                    display: flex;
+                    justify-content: flex-start;
+                    align-items: center;
+                }
+                > div:nth-child(2) {
+                    width: 95%;
+                }
+            }
+            .guest-name {
+                text-align: center;
+                text-transform: uppercase;
+                height: 50px;
+                div {
+                    margin-top: 20px;
+                    color: #0349df !important;
+                    width: 98% !important;
+                    text-shadow: 2px 2px 5px #666;
+                    font-size: 3rem;
+                    font-family: "DFKai", Arial, sans-serif;
+                    font-weight: bold;
+                }
+            }
+            #guest_career {
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+            }
+        }
+        #guest-main::after {
+            content: "";
+            width: 100%;
+            height: 100%;
+            // background: url("../../images/poster.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            background-origin: center;
+            background-color: transparent;
+            justify-content: center;
+            align-items: center;
+            opacity: 0.05;
+            top: 100px;
+            right: 5px;
+            position: absolute;
+            display: inline-block;
+        }
+        #check-in-main {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            // align-items: center;
+            padding-top: 20%;
+            font-size: 3rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 5px #666;
+            color: #0349df;
+            font-family: "DFKai", Arial, sans-serif;
+        }
+    }
+}
+
+.my-map-none {
+    fill: rgb(155, 155, 155);
+    fill-opacity: 0.8;
+    stroke: white;
+    stroke-width: 1;
+}
+
+.waiting_container {
+    position: relative;
+    width: 98.9vw;
+    height: 96vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .waiting-title {
+        font-size: 3rem;
+        color: #fff;
+        position: absolute;
+        top: 50px;
+        font-family: "DFKai", Arial, sans-serif;
+    }
+}
+
+.waiting_container::after {
+    content: "";
+    width: 100%;
+    height: 100%;
+    // background: url("../../images/poster.jpg");
+    background-color: #1f86fc;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-origin: center;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    top: 0px;
+    right: 0px;
+    z-index: -1;
+    position: absolute;
+    display: inline-block;
+}
+
+.ad-style {
+    div {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: 40%;
+        img {
+            width: 65%;
+            margin-bottom: 1rem;
+        }
+        label {
+            color: #01aff0;
+            font-size: 1.5rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            font-family: "DFKai", Arial, sans-serif;
+        }
+    }
+}
