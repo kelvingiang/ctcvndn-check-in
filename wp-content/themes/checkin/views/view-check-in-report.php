@@ -28,7 +28,7 @@ $page = getParams('page');
 <div class="check-in-content">
     <div class="check-in-content-row header-style">
         <div></div>
-        <div><?php _e('會員編碼'); ?></div>
+        <div><?php _e('編碼'); ?></div>
         <div><?php _e('公司名稱'); ?></div>
         <div><?php _e('Full Name') ?></div>
         <div><?php _e('Phone') ?></div>
